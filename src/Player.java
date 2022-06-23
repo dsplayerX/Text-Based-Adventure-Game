@@ -1,9 +1,12 @@
 public class Player {
     private int playerHP;
     private int playerAD;
+    private int numHealthPots;
 
     public Player(){
-
+        this.playerHP = 100;
+        this.playerAD = 50;
+        this.numHealthPots = 3;
     }
 
     public int getPlayerHP(){
@@ -14,12 +17,25 @@ public class Player {
         return playerAD;
     }
 
-    public void setPlayerHP(int newHP){
-        playerHP = newHP;
+    public int getNumHealthPots(){
+        return numHealthPots;
     }
 
-    public void setPlayerAD(int newAD){
-        playerAD = newAD;
+    public void addHealthPot(){
+        this.numHealthPots += 1;
+    }
+
+    public void takeDamage(int damageAmount){
+        this.playerHP -= damageAmount;
+    }
+
+    public void useHealthPot(int healAmount){
+        this.playerHP += healAmount;
+        this.numHealthPots -= 1;
+    }
+
+    public boolean isPlayerAlive(){
+        return playerHP > 0;
     }
 
 }
