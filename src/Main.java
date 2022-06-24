@@ -23,6 +23,11 @@ public class Main {
         System.out.println("\n-----------------------------------------------");
         System.out.println("------------ Witcher Monster Hunt -------------");
         System.out.println("-----------------------------------------------\n");
+        wait(1);
+
+        // Intro
+        System.out.println(" # You venture deep into the forest. #");
+        wait(2);
 
         GAME:
         while(isRunning){
@@ -47,12 +52,15 @@ public class Main {
 
                     monsterHP -= damageDealt;
                     player.takeDamage(damageTaken);
-
+                    wait(1);
                     System.out.println("\t> You attack the " + monster + " for " + damageDealt + " damage.");
+                    wait(2);
                     System.out.println("\t> You take " + damageTaken + " damage in return.");
+                    wait(1);
 
                     if (!player.isPlayerAlive()) {
                         System.out.println("\t> You have taken critical damage. You are bleeding to death!!");
+                        wait(2);
                         break;
                     }
                 } else if (userInput.equalsIgnoreCase("h")) {
@@ -60,13 +68,15 @@ public class Main {
                         int healAmount = randNum.nextInt(10, healthPotMaxHeal);
                         player.useHealthPot(healAmount);
                         System.out.println("\t> You drank a health potion and healed for " + healAmount + " HP.");
-                        System.out.println("\t> You now have " + player.getPlayerHP() + " HP.");
-                        System.out.println("\t You have " + player.getNumHealthPots() + " health potions left.\n");
+                        wait(1);
+                        System.out.println("\n\t> You now have " + player.getPlayerHP() + " HP.");
+                        System.out.println("\t> You have " + player.getNumHealthPots() + " health potions left.\n");
                     } else {
                         System.out.println("\t> You have no health potions left! Defeat enemies for a change to get one.");
                     }
                 } else if (userInput.equalsIgnoreCase("r")) {
                     System.out.println("\tYou run away from the " + monster + "!");
+                    wait(1);
                     continue GAME;
                 } else {
                     System.out.println("Invalid command!");
@@ -75,17 +85,25 @@ public class Main {
 
             if(!player.isPlayerAlive()){
                 System.out.println("\t> You died!!");
+                wait(1);
                 System.out.println("\t> GAME OVER!");
+                wait(1);
                 break;
             }
 
-            System.out.println("-----------------------------------------------");
+            wait(1);
+            System.out.println("------------------------------------------------");
             System.out.println(" # " + monster + " was defeated! #");
+            System.out.println();
+            wait(1);
             System.out.println(" # You have " + player.getPlayerHP() + " HP left.");
             if (randNum.nextInt(100) < healthPotDropChance){
+                wait(1);
                 System.out.println(" # The " + monster + " has dropped a health potion! #");
                 player.addHealthPot();
+                wait(1);
                 System.out.println(" # You now have " + player.getNumHealthPots() + " health potion(s) left. # ");
+                wait(1);
             }
             System.out.println("------------------------------------------------");
             System.out.println("C. Continue fighting");
@@ -100,9 +118,11 @@ public class Main {
             }
 
             if(userChoice.equalsIgnoreCase("c")){
-                System.out.println("You continue looking for monsters to hunt!");
+                System.out.println(" # You continue looking for monsters to hunt! #");
+                wait(2);
             } else {
-                System.out.println("You stop monster hunting for now and leave!");
+                System.out.println(" # You stop monster hunting for now and leave! #");
+                wait(2);
                 isRunning = false;
             }
         }
@@ -110,8 +130,6 @@ public class Main {
         System.out.println("Thanks for playing!");
 
     }
-
-
 
 
     public static void wait(int numSeconds){
