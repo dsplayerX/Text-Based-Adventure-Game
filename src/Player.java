@@ -27,6 +27,10 @@ public class Player {
         return playerLVL;
     }
 
+    public void killPlayer(){
+        this.playerHP = 0;
+    }
+
     public void addHealthPot(int droppedHealthPots){
         this.numHealthPots += droppedHealthPots;
     }
