@@ -1,11 +1,13 @@
 public class Player {
+    private int playerLVL;
     private int playerHP;
-    private int playerAD;
+    private int playerMaxAD;
     private int numHealthPots;
 
     public Player(){
+        this.playerLVL = 1;
         this.playerHP = 100;
-        this.playerAD = 50;
+        this.playerMaxAD = 50;
         this.numHealthPots = 3;
     }
 
@@ -13,16 +15,20 @@ public class Player {
         return playerHP;
     }
 
-    public int getPlayerAD(){
-        return playerAD;
+    public int getPlayerMaxAD(){
+        return playerMaxAD;
     }
 
     public int getNumHealthPots(){
         return numHealthPots;
     }
 
-    public void addHealthPot(){
-        this.numHealthPots += 1;
+    public int getPlayerLVL(){
+        return playerLVL;
+    }
+
+    public void addHealthPot(int droppedHealthPots){
+        this.numHealthPots += droppedHealthPots;
     }
 
     public void takeDamage(int damageAmount){
@@ -36,6 +42,12 @@ public class Player {
 
     public boolean isPlayerAlive(){
         return playerHP > 0;
+    }
+
+    public void playerLevelUP(){
+        this.playerHP += 20;
+        this.playerMaxAD += 15;
+        this.playerLVL += 1;
     }
 
 }
