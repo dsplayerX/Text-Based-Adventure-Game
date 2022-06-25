@@ -11,11 +11,13 @@ public class Main {
         // Monster/s attributes
         String[] monsters = {"Granfaloon", "Deathclaw", "Djhin", "Leshin", "Silver Basilisk", "Lekhidna", "Kikimore", "Mendreaga",
                             "Drowner", "Tree Giant", "Nekker", "Chort", "Plague Wraith", "Bruxa", "Lesser Vampire", "Giant Centipede"};
-        int maxMonsterHealth = 150;
+        int maxMonsterHealth = 100;
+        int minMonsterHealth = 15;
         int monsterAD = 25;
 
         // Player attributes
         int healthPotMaxHeal = 40;
+        int healthPotMinHeal = 10;
         int healthPotDropChance = 50; // Percentage
         Player player = new Player();
         int levelUpCounter = 0;
@@ -49,7 +51,7 @@ public class Main {
             System.out.println(" # " + scenario + "... ");
             wait(1);
 
-            int monsterHP = randNum.nextInt(maxMonsterHealth);
+            int monsterHP = randNum.nextInt(minMonsterHealth,maxMonsterHealth);
             String monster = monsters[randNum.nextInt(monsters.length)];
             System.out.println("\n\t## A " + monster + " has appeared! ##");
             wait(2);
@@ -104,7 +106,7 @@ public class Main {
                     }
                 } else if (userInput.equalsIgnoreCase("h")) {
                     if (player.getNumHealthPots() > 0) {
-                        int healAmount = randNum.nextInt(10, healthPotMaxHeal);
+                        int healAmount = randNum.nextInt(healthPotMinHeal, healthPotMaxHeal);
                         player.useHealthPot(healAmount);
 
                         wait(1);
@@ -169,7 +171,7 @@ public class Main {
             if(!player.isPlayerAlive()){
                 System.out.println("\t> ️\uD83D\uDC80 You died! \uD83D\uDC80");
                 wait(3);
-                System.out.println("\t> G A M E O V E R!");
+                System.out.println("\t> G A M E  O V E R!");
                 wait(2);
                 break;
             }
@@ -182,7 +184,15 @@ public class Main {
             System.out.println(" # You have " + player.getPlayerHP() + "\u2665 HP left.");
 
             // Health potion drop from fallen enemies
-            if (randNum.nextInt(100) < healthPotDropChance){
+
+            int dropChanceBound;
+            if(player.getNumHealthPots() < 2){
+                dropChanceBound = 65; // so the player has 75% (roughly) chance to get a health pot
+            } else {
+                dropChanceBound = 100; // otherwise, 50% to get a health pot
+            }
+
+            if (randNum.nextInt(dropChanceBound) < healthPotDropChance){
                 int healthPotsFromMonster = randNum.nextInt(1,3);
                 player.addHealthPot(healthPotsFromMonster);
 
@@ -197,14 +207,26 @@ public class Main {
             levelUpCounter += 1;
             if(levelUpCounter >= 3){ // Level up after every 3rd encounter
                 levelUpCounter = 0;
-                player.playerLevelUP();
+
+                player.playerLevelUP(); // Leveling up player stats
+
+                // Boosting heal strength per level till a max 30
+                if (healthPotMinHeal < 30){
+                    healthPotMinHeal += 5;
+                }
+
+                // Leveling up monster stats
                 monsterAD += 5;
                 maxMonsterHealth += 25;
+                minMonsterHealth += 5;
+
                 System.out.println();
                 System.out.println(" # You just leveled up! \n # You gained HP and Max AD.");
+                wait(1);
                 System.out.println(" # Your LVL: #" + player.getPlayerLVL());
                 System.out.println(" # Your Max AD: " + player.getPlayerMaxAD());
                 System.out.println(" # Your HP: " + player.getPlayerHP()+ "\u2665");
+                wait(1);
             }
 
             System.out.println("------------------------------------------------");
